@@ -151,23 +151,23 @@ button:disabled {
     }
 
     h2 {
-        font-size: 1.8rem;
+        font-size: 2.8rem;
         text-align: center;
     }
 
     p {
-        font-size: 1.2rem;
+        font-size: 2rem;
         border-bottom: #555 solid 1px;
     }
 
     label {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     input,
     textarea,
     select {
-        font-size: 1.2rem;
+        font-size: 2rem;
         padding: 10px;
     }
 
@@ -180,6 +180,6 @@ button:disabled {
     .closeModal {
         width: 30px;
         height: 30px;
-        font-size: 1.2rem;
+        font-size: 2rem;
     }
 }
