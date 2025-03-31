@@ -1,8 +1,10 @@
+// Declaração global de variáveis (assumindo que estão no escopo global)
 const formulario = document.getElementById('meuFormulario');
 const modal = document.getElementById('modal');
-const { jsPDF } = window.jspdf;
-let imagensParaPDF = [];
+const { jsPDF } = window.jspdf; // Certifique-se de que o jsPDF está carregado via CDN
+let imagensParaPDF = []; // Array global para armazenar as imagens
 
+// Evento de envio do formulário
 formulario.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -19,22 +21,24 @@ formulario.addEventListener('submit', function(e) {
 
     let nomesArquivos = 'Nenhuma imagem';
     imagensParaPDF = [];
-    
+
     if (arquivos.length > 0) {
         nomesArquivos = Array.from(arquivos).map(file => file.name).join(', ');
         processarImagens(arquivos);
     } else {
-        modal.style.display = 'block';
+        modal.style.display = 'block'; // Mostra o modal imediatamente se não houver imagens
     }
 
     document.getElementById('modalArquivo').textContent = nomesArquivos;
 });
 
+// Função para formatar a data
 function formatarData(data) {
     const [ano, mes, dia] = data.split('-');
     return `${dia}/${mes}/${ano}`;
 }
 
+// Função para processar imagens
 function processarImagens(arquivos) {
     const promises = Array.from(arquivos).map(file => {
         return new Promise((resolve) => {
@@ -48,16 +52,21 @@ function processarImagens(arquivos) {
 
     Promise.all(promises).then(imagens => {
         imagensParaPDF = imagens;
-        modal.style.display = 'block';
+        modal.style.display = 'block'; // Mostra o modal após carregar as imagens
+    }).catch(err => {
+        console.error('Erro ao processar imagens:', err);
+        modal.style.display = 'block'; // Mostra o modal mesmo em caso de erro
     });
 }
 
+// Função para fechar o modal
 function fecharModal() {
     modal.style.display = 'none';
     formulario.reset();
     imagensParaPDF = [];
 }
 
+// Função para gerar o PDF
 function gerarPDF() {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -67,7 +76,7 @@ function gerarPDF() {
     // Cabeçalho
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
-    doc.text("  RELATORIO MENSAL", pageWidth / 2, yPosition, { align: "center" });
+    doc.text("RELATÓRIO MENSAL", pageWidth / 2, yPosition, { align: "center" });
     yPosition += 5;
     doc.setLineWidth(0.5);
     doc.line(10, yPosition, pageWidth - 10, yPosition); // Linha horizontal
@@ -82,14 +91,17 @@ function gerarPDF() {
     doc.line(10, yPosition, pageWidth - 10, yPosition); // Linha divisória
     yPosition += 5;
 
-    doc.text(`Data: ${document.getElementById('modalData').textContent}`, 15, yPosition);
+    // Verificação de elementos DOM para evitar erros
+    const modalData = document.getElementById('modalData')?.textContent || 'N/A';
+    const modalResponsavel = document.getElementById('modalResponsavel')?.textContent || 'N/A';
+    const modalIgreja = document.getElementById('modalIgreja')?.textContent || 'N/A';
+
+    doc.text(`Data: ${modalData}`, 15, yPosition);
     yPosition += 7;
-    doc.text(`Responsável: ${document.getElementById('modalResponsavel').textContent}`, 15, yPosition);
+    doc.text(`Responsável: ${modalResponsavel}`, 15, yPosition);
     yPosition += 7;
-    doc.text(`Igreja: ${document.getElementById('modalIgreja').textContent}`, 15, yPosition);
-    yPosition += 7;
-    // doc.text(`Arquivos: ${document.getElementById('modalArquivo').textContent}`, 15, yPosition);
-    // yPosition += 10;
+    doc.text(`Igreja: ${modalIgreja}`, 15, yPosition);
+    yPosition += 10;
 
     // Descrição
     doc.setFont("helvetica", "bold");
@@ -98,10 +110,10 @@ function gerarPDF() {
     doc.line(10, yPosition, pageWidth - 10, yPosition);
     yPosition += 5;
     doc.setFont("helvetica", "normal");
-    const descricao = document.getElementById('modalDescricao').textContent;
+    const descricao = document.getElementById('modalDescricao')?.textContent || 'Sem descrição';
     const linhasDescricao = doc.splitTextToSize(descricao, pageWidth - 30);
     doc.text(linhasDescricao, 15, yPosition);
-    yPosition += (linhasDescricao.length * 5) + 10;
+    yPosition += (linhasDescricao.length * 7) + 10; // Aumentei o espaçamento para legibilidade
 
     // Imagens em grid
     if (imagensParaPDF.length > 0) {
@@ -133,44 +145,68 @@ function gerarPDF() {
                     xPosition = margem;
                 }
 
-                doc.addImage(imagemData, 'JPEG', xPosition, yPosition, maxWidth, pdfHeight);
-                xPosition += maxWidth + margem;
+                try {
+                    doc.addImage(imagemData, 'JPEG', xPosition, yPosition, maxWidth, pdfHeight);
+                    xPosition += maxWidth + margem;
 
-                if ((index + 1) % colunas === 0) {
-                    yPosition += pdfHeight + margem;
-                    xPosition = margem;
+                    if ((index + 1) % colunas === 0) {
+                        yPosition += pdfHeight + margem;
+                        xPosition = margem;
+                    }
+                } catch (error) {
+                    console.error('Erro ao adicionar imagem:', error);
                 }
 
                 imagensCarregadas++;
                 if (imagensCarregadas === imagensParaPDF.length) {
-                    // Rodapé
-                    doc.setFontSize(8);
-                    doc.setFont("helvetica", "normal");
-                    doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 10, pageHeight - 10);
-                    doc.save('nota_fiscal_registro.pdf');
+                    finalizarPDF(doc);
                 }
             };
 
             img.onerror = function() {
+                console.error('Erro ao carregar imagem:', index);
                 imagensCarregadas++;
                 if (imagensCarregadas === imagensParaPDF.length) {
-                    doc.setFontSize(8);
-                    doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 10, pageHeight - 10);
-                    doc.save('nota_fiscal_registro.pdf');
+                    finalizarPDF(doc);
                 }
             };
         });
     } else {
-        // Rodapé sem imagens
-        doc.setFontSize(8);
-        doc.setFont("helvetica", "normal");
-        doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 10, pageHeight - 10);
-        doc.save('nota_fiscal_registro.pdf');
+        finalizarPDF(doc); // Finaliza imediatamente se não houver imagens
     }
 }
 
+// Função para finalizar o PDF
+function finalizarPDF(doc) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 10, pageHeight - 10);
+
+    // Gera o PDF como Blob e cria uma URL para visualização
+    const pdfBlob = doc.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // Abre o PDF em uma nova janela para visualização
+    const novaJanela = window.open(pdfUrl, '_blank');
+    if (novaJanela) {
+        novaJanela.focus();
+    } else {
+        alert('Por favor, permita pop-ups para visualizar o PDF.');
+    }
+
+    // Prompt para baixar manualmente
+    if (confirm('Deseja baixar o PDF agora?')) {
+        doc.save('relatorio_mensal.pdf'); // Nome mais descritivo
+    }
+
+    // Libera a URL após o uso
+    setTimeout(() => URL.revokeObjectURL(pdfUrl), 10000);
+}
+
+// Fechar o modal ao clicar fora
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         fecharModal();
     }
-}
+};

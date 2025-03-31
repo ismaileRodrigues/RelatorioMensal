@@ -19,27 +19,47 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
+    position: relative;
 }
 
+.modal-content p {
+    color: #333;
+}
 
+.closeModal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+}
 
+.closeModal:hover {
+    background-color: #cc0000;
+}
 
 /* Formulário */
 .form-container {
     width: 90%;
-    height: 100%;
     margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-   
-    height: 100%;
 }
 
 h1 {
@@ -52,7 +72,6 @@ h1 {
 .form-group {
     margin-bottom: 20px;
     width: 100%;
-    height: 100%;
 }
 
 label {
@@ -62,7 +81,9 @@ label {
     color: #555;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
     width: 100%;
     font-size: 1rem;
     padding: 10px;
@@ -72,7 +93,9 @@ input, textarea, select {
     transition: all 0.3s ease;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -112,26 +135,46 @@ button:disabled {
     }
 }
 
-
-
-
+/* Responsividade */
 @media (max-width: 768px) {
     .modal-content {
-        margin: 10% auto;
+        margin: 15% auto;
         padding: 15px;
         width: 95%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    p {
+        font-size: 2rem;
+        border-bottom: #555 solid 1px;
     }
 
     label {
         font-size: 3rem;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
         font-size: 2rem;
         padding: 20px;
     }
+
     button {
         padding: 20px 30px;
+        font-size: 2rem;
+        margin-top: 10px;
+    }
+
+    .closeModal {
+        width: 40px;
+        height: 40px;
         font-size: 2rem;
     }
 }

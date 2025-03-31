@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <link rel="stylesheet" href="style.css">
 <head>
     <meta charset="UTF-8">
     <title>Formulário</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="form-container">
@@ -17,7 +17,6 @@
                 <label for="responsavel">Responsável:</label>
                 <input type="text" id="responsavel" name="responsavel" required>
             </div>
-
             <div class="form-group">
                 <label for="igreja">Igreja:</label>
                 <select id="igreja" name="igreja" required>
@@ -31,23 +30,21 @@
                     <option value="Bugre">Bugre</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="arquivo">Imagens:</label>
                 <input type="file" id="arquivo" name="arquivo" accept="image/*" multiple>
             </div>
-
             <div class="form-group">
                 <label for="descricao">Descrição:</label>
                 <textarea id="descricao" name="descricao" rows="4" required></textarea>
             </div>
-
             <button type="submit">Enviar</button>
         </form>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
+            <button class="closeModal" onclick="fecharModal()">X</button>
             <h2>Dados Enviados</h2>
             <p><strong>Data:</strong> <span id="modalData"></span></p>
             <p><strong>Responsável:</strong> <span id="modalResponsavel"></span></p>
@@ -55,7 +52,6 @@
             <p><strong>Nomes dos Arquivos:</strong> <span id="modalArquivo"></span></p>
             <p><strong>Descrição:</strong> <span id="modalDescricao"></span></p>
             <button onclick="gerarPDF()">Gerar PDF</button>
-            <button onclick="fecharModal()">Fechar</button>
         </div>
     </div>
 
