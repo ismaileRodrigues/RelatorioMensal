@@ -179,3 +179,19 @@ button {
     height: 30px;
     font-size: 2rem;
 }
+
+@media (max-width: 768px) {
+  input,
+textarea,
+select {
+    font-size: 2rem;
+    padding: 20px;
+}
+
+    .form-container 
+    {
+    width: 90%;
+ height: 90vw;
+}
+
+}
