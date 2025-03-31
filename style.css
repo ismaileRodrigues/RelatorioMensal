@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 90%;
+    width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
@@ -138,7 +138,7 @@ button:disabled {
 /* Media Queries para responsividade */
 @media (max-width: 768px) {
     .modal-content {
-        width: 85%;
+        width: 90%;
         margin: 5% auto;
         padding: 5%;
         max-width: none; /* Remove o max-width para telas pequenas */
