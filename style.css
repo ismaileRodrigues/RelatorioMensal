@@ -15,7 +15,7 @@
     margin: 5% auto;
     padding: 2%;
     width: 90%;
-    max-width: 500px;
+    max-width: 800px; /* Define max-width for larger screens */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
@@ -54,6 +54,7 @@
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     max-width: 800px; /* Define max-width for larger screens */
 }
 
 form {
@@ -147,7 +148,7 @@ h1 {
 }
 
 h2 {
-    font-size: 2.8rem;
+    font-size: 2rem;
     text-align: center;
 }
 
@@ -157,13 +158,13 @@ p {
 }
 
 label {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 input,
 textarea,
 select {
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 10px;
 }
 
