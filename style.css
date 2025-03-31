@@ -136,45 +136,50 @@ button:disabled {
 }
 
 /* Responsividade */
+/* Responsividade */
 @media (max-width: 768px) {
     .modal-content {
-        margin: 15% auto;
-        padding: 15px;
-        width: 95%;
-        max-height: 80vh;
+        margin: 10% auto;
+        padding: 10px;
+        width: 90%;
+        max-height: 75vh;
         overflow-y: auto;
     }
 
+    h1 {
+        font-size: 1.5rem;
+    }
+
     h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         text-align: center;
     }
 
     p {
-        font-size: 2rem;
+        font-size: 1.2rem;
         border-bottom: #555 solid 1px;
     }
 
     label {
-        font-size: 3rem;
+        font-size: 1.5rem;
     }
 
     input,
     textarea,
     select {
-        font-size: 2rem;
-        padding: 20px;
+        font-size: 1.2rem;
+        padding: 10px;
     }
 
     button {
-        padding: 20px 30px;
-        font-size: 2rem;
-        margin-top: 10px;
+        padding: 10px 15px;
+        font-size: 1.2rem;
+        margin-top: 5px;
     }
 
     .closeModal {
-        width: 40px;
-        height: 40px;
-        font-size: 2rem;
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
     }
 }
