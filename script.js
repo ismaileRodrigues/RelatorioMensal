@@ -10,13 +10,14 @@ formulario.addEventListener('submit', function(e) {
 
     const data = document.getElementById('data').value;
     const responsavel = document.getElementById('responsavel').value;
-    const igreja = document.getElementById('igreja').value;
+    const igrejaSelect = document.getElementById('igreja');
+    const igrejas = Array.from(igrejaSelect.selectedOptions).map(option => option.text).join(", ");
     const arquivos = document.getElementById('arquivo').files;
     const descricao = document.getElementById('descricao').value;
 
     document.getElementById('modalData').textContent = formatarData(data);
     document.getElementById('modalResponsavel').textContent = responsavel;
-    document.getElementById('modalIgreja').textContent = igreja;
+    document.getElementById('modalIgreja').textContent = igrejas;
     document.getElementById('modalDescricao').textContent = descricao;
 
     let nomesArquivos = 'Nenhuma imagem';
